@@ -1,0 +1,19 @@
+
+# KERAS MODEL
+keras
+tensorflow # prerequisite for keras
+
+# NLP
+gensim
+wordsegment
+nltk
+
+
+
+
+#python-dotenv
+#tweepy
+#pillow
+
+
+#numpy

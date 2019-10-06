@@ -1,5 +1,29 @@
 # Contributor's Guide
 
+
+## Setup
+
+```sh
+conda create -n brexit-env python=3.7 # (first time only)
+conda activate brexit-env
+```
+
+```sh
+pip install -r requirements.txt # (first time only)
+```
+
+## Usage
+
+Classify your own user-provided text:
+
+```sh
+python classifier.py
+#> Tweet Text: I want to leave the EU
+#> This tweet is [0.8231815] Pro Brexit
+```
+
+<hr>
+
 ## Git Large File Storage
 
 The model file is too large for normal Git, so in order to push to GitHub, we need to use [Git Large File Storage](https://git-lfs.github.com/).
