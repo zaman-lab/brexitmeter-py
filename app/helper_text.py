@@ -1,11 +1,11 @@
-import numpy as np
+#import numpy as np
 # ## Upload utils for formatting the tweets
-#libraries for text processing 
+#libraries for text processing
 from wordsegment import load, segment
 from gensim.corpora import Dictionary
 import re
 import string
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords # FYI: might need to also nltk.download()
 from keras.preprocessing import sequence
 
 #segmentation
@@ -27,7 +27,7 @@ def clean(twt):
         twt = twt.translate(str.maketrans('','',string.punctuation))
         twt = twt.split()
         twt = [i.lower() for i in twt]
-        twt = [i for i in twt if 'htt' not in i and 
+        twt = [i for i in twt if 'htt' not in i and
                                       i not in stopwords.words('english')]
         twt = ' '.join(twt)
         return(twt)
@@ -75,6 +75,6 @@ def main_clean(twt):
     #transform
     twt = transform(twt, 20)
     twt_s = transform_s(twt_s, 20)
-    #make x 
+    #make x
     x = [twt, twt_s]
     return(x)

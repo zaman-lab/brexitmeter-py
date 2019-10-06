@@ -14,4 +14,4 @@ if __name__ == "__main__":
 	polarity_pro = result[:,1]
 	print(f"This tweet is {polarity_pro} Pro Brexit")
 
-	breakpoint()
+	#breakpoint()

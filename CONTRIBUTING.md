@@ -17,9 +17,12 @@ pip install -r requirements.txt # (first time only)
 Classify your own user-provided text:
 
 ```sh
-python classifier.py
-#> Tweet Text: I want to leave the EU
+python app/classifier.py
+# Tweet Text: I want to leave the EU
 #> This tweet is [0.8231815] Pro Brexit
+
+# Tweet Text: I want to stay in the EU
+#> This tweet is [0.6230951] Pro Brexit
 ```
 
 <hr>
