@@ -1,5 +1,6 @@
-from model import load_model
-from helper_text import main_clean
+
+from app.model import load_model
+from app.helper_text import main_clean
 
 if __name__ == "__main__":
 

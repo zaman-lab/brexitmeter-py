@@ -1,20 +1,21 @@
-#import numpy as np
-# ## Upload utils for formatting the tweets
-#libraries for text processing
+# for text processing and formatting the tweets
+
 from wordsegment import load, segment
-from gensim.corpora import Dictionary
 import re
 import string
 from nltk.corpus import stopwords # FYI: might need to also nltk.download()
 from keras.preprocessing import sequence
 
-#segmentation
+from app.dictionaries import load_dictionaries
+
 load()
+
+dictionary, dictionary_s = load_dictionaries()
+
 def my_replace(match):
     match = match.group()
     return ' '.join(segment(match))
 
-#this function
 def process(twt):
     try:
         return(re.sub('#\w+', my_replace, twt))
@@ -22,7 +23,7 @@ def process(twt):
         return(None)
 
 def clean(twt):
-    #remove punctutation
+    #remove punctuation
     try:
         twt = twt.translate(str.maketrans('','',string.punctuation))
         twt = twt.split()
@@ -35,11 +36,7 @@ def clean(twt):
         print(e)
         return(None)
 
-
 #transform takes a clean tweet and tokenize it
-#load dictionary
-dictionary = Dictionary.load('Dictionary/dic.txt')
-# dictionary = Dictionary.load_from_text('Dictionary/dic.txt')
 def transform(twt, seq_len):
     twt = clean(twt).split()
     l = []
@@ -50,9 +47,7 @@ def transform(twt, seq_len):
             l.append(0)
     twt = sequence.pad_sequences([l], maxlen=seq_len)
     return(twt)
-#dictionary_s
-dictionary_s = Dictionary.load('Dictionary/dic_s.txt')
-# dictionary_s = Dictionary.load_from_text('Dictionary/dic_s.txt')
+
 def transform_s(twt, seq_len):
     twt = clean(twt).split()
     l = []

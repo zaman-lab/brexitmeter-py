@@ -1,3 +1,5 @@
+from os import path
+
 from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Embedding, SpatialDropout1D, Flatten
@@ -8,18 +10,14 @@ from keras.layers.convolutional import MaxPooling1D
 from keras.layers.merge import concatenate
 from keras.models import Model
 
-from gensim.corpora import Dictionary
-
-dictionary = Dictionary.load('Dictionary/dic.txt')
-dictionary_s = Dictionary.load('Dictionary/dic_s.txt')
-# In[10]:
-dictionary_size = len(dictionary)
-dictionary_size_s = len(dictionary_s)
-
-
-# In[11]:
+from app.dictionaries import load_dictionaries
 
 def load_model():
+
+	dictionary, dictionary_s = load_dictionaries()
+	dictionary_size, dictionary_size_s = len(dictionary), len(dictionary_s)
+	#print("DICTIONARY SIZES:", dictionary_size, dictionary_size_s) #> 224011 219691
+
 	#import model architecture
 	seq_len = 20
 	#input1
@@ -45,7 +43,7 @@ def load_model():
 	model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 	#print(model.summary())
 
-	#load model weights 
-	model.load_weights('Final_weights/final_weights.hdf5')
+	#load model weights
+	WEIGHTS_FILEPATH = path.join(path.dirname(__file__), "..", "model", "final_weights.hdf5")
+	model.load_weights(WEIGHTS_FILEPATH)
 	return(model)
-
