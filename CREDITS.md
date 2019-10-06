@@ -14,7 +14,7 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 
 ## Natural Language Processing
 
-### Gensim
+### [Gensim](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=9vG_kV0AAAAJ&citation_for_view=9vG_kV0AAAAJ:NaGl4SEjCO4C)
 
 "Gensim is a Python library for topic modeling, document indexing and similarity retrieval with large corpora."
 
