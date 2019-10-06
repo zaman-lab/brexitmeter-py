@@ -25,6 +25,45 @@ python -m app.cli
 #> This tweet is [0.6230951] Pro Brexit
 ```
 
+See the contents of the model's dictionaries:
+
+```sh
+python -m app.dictionaries
+```
+
+## Testing
+
+Install pytest:
+
+```sh
+pip install pytest # (first time only)
+```
+
+Run tests:
+
+```sh
+pytest --disable-pytest-warnings
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <hr>
 
 ## Git Large File Storage
