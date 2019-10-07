@@ -9,6 +9,7 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
+from app.model import load_model
 from app.client import compute_polarity
 #from make_gauge import plotGauge2
 
@@ -33,6 +34,7 @@ class StdOutListener(StreamListener):
         self.api = tweepy.API(self.auth)
         self.lastTweeted = ""
         self.lastTweetedCount = 0
+        self.model = load_model()
 
     def on_status(self, status):
 
@@ -42,29 +44,24 @@ class StdOutListener(StreamListener):
         if(USER_HANDLE in status.text):
 
             tweetText_ = status.text.split(USER_HANDLE)
-
             tweetText = ''.join([i for i in tweetText_ if USER_HANDLE not in i])
-
             temp=tweetText.split(' ')[1:]
-
+            print(temp)
             #sort out any white spaces left over from splitting
             #account for if username is at the start of a tweet/in the middle/at the end
-
             tweetText = ''.join(tweetText)
 
-            score = compute_polarity(tweetText,model)[0]
-            #plotname=plotGauge2(score, status.author.screen_name)
-
-            #withPics=False
-            print(temp)
             if(len(temp)<=2):
-                postMsg = '@' + status.author.screen_name + " Looks like this tweet is is only a few words... it's harder for me to infer polarity without more context "+ u"\U0001F914"
+                message = '@' + status.author.screen_name + " Looks like this tweet is is only a few words... it's harder for me to infer polarity without more context "+ u"\U0001F914"
             else:
+                result = compute_polarity(tweetText, self.model) # pass in the pre-loaded model to prevent re-loading
+                score = result[0]
+                #plotname=plotGauge2(score, status.author.screen_name)
+
                 if(score < 0.6 and score > 0.4):
-                    postMsg = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
+                    message = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
                 else:
-                    postMsg = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"
-                    #withPics=True
+                    message = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"
 
             #prevent bot loops - if we tweet the same person more than 10 times then start ignoring.
             if(status.author.screen_name == self.lastTweeted):
@@ -85,7 +82,11 @@ class StdOutListener(StreamListener):
 
                 #media_filepath = os.path.join(path.dirname(__file__), "..", "img", "up_gauge.png")
                 media_filepath = os.path.join(os.path.dirname(__file__), "..", "img", "up_gauge.png")
-                self.api.update_with_media(filename=media_filepath,status=postMsg, in_reply_to_status_id=status.id)
+                self.api.update_with_media(
+                    filename = media_filepath,
+                    status = message,
+                    in_reply_to_status_id = status.id
+                )
 
                 self.wait = 0
             except Exception as a:
