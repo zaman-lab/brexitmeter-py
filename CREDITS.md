@@ -32,3 +32,8 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 
   + [NLTK Source](https://github.com/nltk/nltk)
   + [NLTK Notes](https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/notes/python/packages/nltk.md)
+
+## Twitter
+
+  + [Twitter API](https://developer.twitter.com/en/apps/)
+  + [Twitter API Restricted Use Cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases)

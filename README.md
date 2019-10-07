@@ -1,6 +1,6 @@
 # Brexitmeter Bot
 
-A live twitter polarity bot.
+A live twitter polarity bot. At-mention this account in a tweet, and we'll run the tweet text through our algorithm to classify the degree to which it expresses pro-Brexit sentiments.
 
 ## Files in this Repository
 

@@ -17,7 +17,7 @@ pip install -r requirements.txt # (first time only)
 Classify your own user-provided text:
 
 ```sh
-python -m app.cli
+python -m app.client
 # Tweet Text: I want to leave the EU
 #> This tweet is [0.8231815] Pro Brexit
 

@@ -8,11 +8,9 @@ gensim
 wordsegment
 nltk
 
-
-
-
-#python-dotenv
-#tweepy
+# TWITTER
+python-dotenv
+tweepy
 #pillow
 
 
