@@ -31,6 +31,12 @@ See the contents of the model's dictionaries:
 python -m app.dictionaries
 ```
 
+Run the Twitter Bot:
+
+```sh
+python -m app.bot
+```
+
 ## Testing
 
 Install pytest:

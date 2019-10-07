@@ -38,6 +38,8 @@ class StdOutListener(StreamListener):
 
     def on_status(self, status):
 
+        print("----------------")
+        print("DETECTED AN INCOMING TWEET!")
         print(status.text)
         print(status.user.screen_name)
 
@@ -55,10 +57,12 @@ class StdOutListener(StreamListener):
                 message = '@' + status.author.screen_name + " Looks like this tweet is is only a few words... it's harder for me to infer polarity without more context "+ u"\U0001F914"
             else:
                 result = compute_polarity(tweetText, self.model) # pass in the pre-loaded model to prevent re-loading
-                score = result[0]
+                print(result) #> ndarray with shape (1, 2)
+                score = result[0][1]
                 #plotname=plotGauge2(score, status.author.screen_name)
+                print(score)
 
-                if(score < 0.6 and score > 0.4):
+                if score > 0.4 and score < 0.6:
                     message = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
                 else:
                     message = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"

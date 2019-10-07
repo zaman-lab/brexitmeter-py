@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
 		result = compute_polarity(user_text, model)
 
-		polarity_pro = result[:,1]
+		polarity_pro = result[:,1] # or result[0][1]
 
 		print(f"This text is {polarity_pro} Pro Brexit")
 
