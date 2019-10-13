@@ -45,7 +45,7 @@ def unweighted_model():
 
 	return model
 
-def loaded_model(model=None):
+def load_model(model=None):
 	if not model:
 		model = unweighted_model()
 

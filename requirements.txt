@@ -11,7 +11,7 @@ python-dotenv
 tweepy
 boto3
 
-
+google-cloud-storage
 h5py
 pandas
 #pillow

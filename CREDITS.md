@@ -50,6 +50,9 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 ## Google Cloud Storage
 
   + [Making buckets public](https://cloud.google.com/storage/docs/access-control/making-data-public)
+  + https://cloud.google.com/python/docs/reference/
+  + https://cloud.google.com/storage/docs/reference/libraries
+
 
 <hr>
 
