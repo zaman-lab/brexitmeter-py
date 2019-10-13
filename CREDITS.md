@@ -87,4 +87,19 @@ git push origin master
 
 ## Deploying Large Files to Heroku
 
-Normal `git push heroku master` fails due to "". See [this post](https://stackoverflow.com/questions/44822146/githeroku-repository-or-object-not-found)
+Normal `git push heroku master` fails due to something related to LFS:
+
+> *Repository or object not found: https://git.heroku.com/brexitmeter-bot.git/info/lfs/objects/batch
+> Check that it exists and that you have proper access to it
+> Uploading LFS objects:   0% (0/1), 0 B | 0 B/s, done
+> error: failed to push some refs to 'https://git.heroku.com/brexitmeter-bot.git'*
+
+The model files are [too big](https://stackoverflow.com/questions/44822146/githeroku-repository-or-object-not-found) to be pushed to heroku, so we're going to load the model weights file from remote storage instead. We researched S3, and were close to getting it to work, but then found an existing [keras integration with google cloud storage](https://github.com/keras-team/keras/pull/11636/files). This amazing integration makes it really easy for keras to load remote model files. We're in business! :pray: tada:
+
+Now to remove LFS from the repo:
+
+  + remove / comment-out line in ".gitattributes"
+  + `git lfs uninstall`
+  + `mv model/final_weights.hdf5 ~/Desktop/`
+  + update .gitignore
+  + `mv ~/Desktop/final_weights.hdf5 model/`

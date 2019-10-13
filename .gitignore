@@ -6,3 +6,6 @@ __pycache__
 .pytest_cache
 
 *credentials.json
+
+model/*
+model/final_weights.hdf5

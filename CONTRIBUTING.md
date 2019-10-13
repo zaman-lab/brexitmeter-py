@@ -58,6 +58,8 @@ pytest --disable-pytest-warnings
 
 ## Deploying
 
+> NOTE: the model weights file is too large to be deployed to heroku, so we need to load it from remote storage instead.
+
 Create a new app server:
 
 ```sh
@@ -76,6 +78,6 @@ heroku config set MODEL_ENV="remote"
 Deploy:
 
 ```sh
-git checkout reorg-bot-deploy
-git push heroku master
+git checkout gcs
+git push heroku gcs:master
 ```
