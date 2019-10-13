@@ -111,7 +111,15 @@ git checkout gcs
 git push heroku gcs:master
 ```
 
-Run:
+Test everything is working in production:
+
+```sh
+heroku run "python -m app.storage_service"
+heroku run "python -m app.dictionaries"
+heroku run "python -m app.client"
+```
+
+Run the bot in production:
 
 ```sh
 heroku run "python -m app.bot"
