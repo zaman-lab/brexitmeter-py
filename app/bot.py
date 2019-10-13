@@ -22,12 +22,10 @@ ACCESS_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET", default="OOPS")
 USER_HANDLE = os.getenv("TWITTER_USER_HANDLE", default="@brexitmeter_bot")
 
 class StdOutListener(StreamListener):
-    """ A listener handles tweets are the received from the stream.
-    This is a
-    basic listener that just prints received tweets to stdout.
-    """
+    """ Opens a connection with the Twitter API, handles a stream of specified tweet events."""
 
     def __init__(self):
+        """model: keras model with weights loaded, ready to make predictions"""
         self.wait = 0
         self.auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         self.auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
@@ -113,14 +111,14 @@ class StdOutListener(StreamListener):
         print (sys.stderr + 'Timeout...')
         return True # Don't kill the stream
 
-
 if __name__ == '__main__':
+
     listener = StdOutListener()
-    print("LISTENING...", type(listener))
+    print("LISTENER...", type(listener))
 
     stream = Stream(listener.auth, listener)
     print("STREAM", type(stream))
 
     stream.filter(track=[USER_HANDLE])
 
-    breakpoint()
+    breakpoint() # this never gets reached. the stream is connected

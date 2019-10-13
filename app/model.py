@@ -1,4 +1,5 @@
-from os import path
+import os
+from dotenv import load_dotenv
 
 from keras.utils import np_utils
 from keras.models import Sequential
@@ -11,6 +12,12 @@ from keras.layers.merge import concatenate
 from keras.models import Model
 
 from app.dictionaries import load_dictionaries
+
+load_dotenv()
+
+MODEL_ENV = os.getenv("MODEL_ENV", default="local") # local / remote
+LOCAL_WEIGHTS_FILEPATH = os.path.join(os.path.dirname(__file__), "..", "model", "final_weights.hdf5")
+REMOTE_WEIGHTS_FILEPATH = os.getenv("REMOTE_WEIGHTS_FILEPATH", default="gs://my_bucket/final_weights.hd5")
 
 def unweighted_model():
 
@@ -45,10 +52,13 @@ def unweighted_model():
 
 	return model
 
-def load_model(model=None):
-	if not model:
-		model = unweighted_model()
-
-	WEIGHTS_FILEPATH = path.join(path.dirname(__file__), "..", "model", "final_weights.hdf5")
-	model.load_weights(WEIGHTS_FILEPATH)
+def load_model(model_env=MODEL_ENV):
+	model = unweighted_model()
+	print(f"LOADING WEIGHTS FROM {model_env.upper()} FILE")
+	if model_env == "remote":
+		model.load_weights(REMOTE_WEIGHTS_FILEPATH)
+	elif model_env == "local":
+		model.load_weights(LOCAL_WEIGHTS_FILEPATH)
+	else:
+		model = remote_model()
 	return model

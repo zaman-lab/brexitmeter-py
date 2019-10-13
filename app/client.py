@@ -2,7 +2,7 @@
 from app.model import load_model
 from app.helper_text import main_clean
 
-def compute_polarity(txt, model=load_model()):
+def compute_polarity(txt, model):
 	"""
 	Params:
 		txt is the text to classify
@@ -14,10 +14,10 @@ def compute_polarity(txt, model=load_model()):
 
 	return result
 
-
 if __name__ == "__main__":
 
 	model = load_model()
+	print("MODEL", type(model))
 
 	while True:
 

@@ -64,6 +64,15 @@ Create a new app server:
 heroku create # (first time only)
 ```
 
+Configure environment variables:
+
+```sh
+heroku config set MODEL_ENV="remote"
+# etc.
+```
+```
+
+
 Deploy:
 
 ```sh
