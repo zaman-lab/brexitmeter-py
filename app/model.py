@@ -12,12 +12,7 @@ from keras.layers.merge import concatenate
 from keras.models import Model
 
 from app.dictionaries import load_dictionaries
-
-load_dotenv()
-
-MODEL_ENV = os.getenv("MODEL_ENV", default="local") # local / remote
-LOCAL_WEIGHTS_FILEPATH = os.path.join(os.path.dirname(__file__), "..", "model", "final_weights.hdf5")
-REMOTE_WEIGHTS_FILEPATH = os.getenv("REMOTE_WEIGHTS_FILEPATH", default="gs://my_bucket/final_weights.hd5")
+from app.storage_service import STORAGE_ENV, LOCAL_WEIGHTS_FILEPATH, REMOTE_WEIGHTS_FILEPATH
 
 def unweighted_model():
 
@@ -52,12 +47,12 @@ def unweighted_model():
 
 	return model
 
-def load_model(model_env=MODEL_ENV):
+def load_model(storage_env=STORAGE_ENV):
 	model = unweighted_model()
-	print(f"LOADING WEIGHTS FROM {model_env.upper()} FILE")
-	if model_env == "remote":
+	print(f"LOADING WEIGHTS FROM {storage_env.upper()} FILE")
+	if storage_env == "remote":
 		model.load_weights(REMOTE_WEIGHTS_FILEPATH)
-	elif model_env == "local":
+	elif storage_env == "local":
 		model.load_weights(LOCAL_WEIGHTS_FILEPATH)
 	else:
 		model = remote_model()

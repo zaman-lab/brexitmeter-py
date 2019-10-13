@@ -87,7 +87,7 @@ git push origin master
 
 ## Deploying Large Files to Heroku
 
-Normal `git push heroku master` fails due to something related to LFS:
+Normal `git push heroku gcs:master` fails due to something related to LFS:
 
 > *Repository or object not found: https://git.heroku.com/brexitmeter-bot.git/info/lfs/objects/batch
 > Check that it exists and that you have proper access to it
@@ -101,5 +101,21 @@ Now to remove LFS from the repo:
   + remove / comment-out line in ".gitattributes"
   + `git lfs uninstall`
   + `mv model/final_weights.hdf5 ~/Desktop/`
-  + update .gitignore
+  + update .gitignore, etc.
   + `mv ~/Desktop/final_weights.hdf5 model/`
+
+Re-deploy:
+
+```sh
+git push heroku gcs:master
+```
+
+Alright. Here we go.
+
+```sh
+heroku run "python -m app.bot"
+```
+
+#> FileNotFoundError: [Errno 2] No such file or directory: '/app/app/../dictionary/dic.txt'
+
+Oh right, need to upload the dictionary files to GCS as well...

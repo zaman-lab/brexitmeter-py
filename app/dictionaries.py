@@ -1,13 +1,22 @@
 
-from os import path
+from os
 
 from gensim.corpora import Dictionary
 
-def load_dictionaries():
-	DICT1_FILEPATH = path.join(path.dirname(__file__), "..", "dictionary", "dic.txt")
-	DICT2_FILEPATH = path.join(path.dirname(__file__), "..", "dictionary", "dic_s.txt")
-	dict1 = Dictionary.load(DICT1_FILEPATH)
-	dict2 = Dictionary.load(DICT2_FILEPATH)
+from storage import STORAGE_ENV
+
+def load_dictionaries(storage_env=STORAGE_ENV):
+	print(f"LOADING DICTIONARIES FROM {storage_env.upper()} STORAGE")
+	if storage_env == "remote":
+		dictionaries_dirpath = ____________
+	elif model_env == "local":
+		dictionaries_dirpath = os.path.join(os.path.dirname(__file__), "..", "dictionary")
+
+	dict1_filepath = os.path.join(dictionaries_dirpath, "dic.txt")
+	dict2_filepath = os.path.join(dictionaries_dirpath, "dic_s.txt")
+
+	dict1 = Dictionary.load(dict1_filepath)
+	dict2 = Dictionary.load(dict2_filepath)
 	return dict1, dict2
 
 if __name__ == "__main__":

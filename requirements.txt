@@ -12,7 +12,7 @@ tweepy
 boto3
 
 google-cloud-storage
-h5py
+#h5py
 pandas
 #pillow
 #numpy

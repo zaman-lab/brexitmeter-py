@@ -69,15 +69,19 @@ heroku create # (first time only)
 Configure environment variables:
 
 ```sh
-heroku config set MODEL_ENV="remote"
-# etc.
+heroku config set STORAGE_ENV="remote"
+# etc... (see all env vars in ".env.example" file)
 ```
-```
-
 
 Deploy:
 
 ```sh
 git checkout gcs
 git push heroku gcs:master
+```
+
+Run:
+
+```sh
+heroku run "python -m app.bot"
 ```
