@@ -33,7 +33,9 @@ if __name__ == "__main__":
 
 	breakpoint()
 
-	model.load_weights(file_contents)
+	#model.load_weights(file_contents) #> OSError
+	#model.load_weights(response["Body"]) #> TypeError: expected str, bytes or os.PathLike object, not StreamingBody
+	#model.load_weights(response["Body"].get_) #> TypeError: expected str, bytes or os.PathLike object, not StreamingBody
 
 
 
