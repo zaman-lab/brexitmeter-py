@@ -43,6 +43,12 @@ After configuring access to remote model files, you can run the storage service 
 python -m app.storage_service
 ```
 
+You can also run the dictionaries parser to inspect the values (tokens) inside each of the dictionary files:
+
+```sh
+python -m app.dictionaries
+```
+
 ## Usage
 
 After configuring model storage access to the model files, you can use the model to make predictions.

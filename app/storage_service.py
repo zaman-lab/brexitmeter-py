@@ -39,7 +39,6 @@ if __name__ == "__main__":
 		os.path.join(dictionaries_dirpath("remote"), "dic_s.txt"),
 		os.path.join(storage_path("remote"), "gradebook.csv"),
 	]
-
 	import tensorflow as tf
 	for filepath in remote_filepaths:
 		print(filepath, tf.io.gfile.exists(filepath))
