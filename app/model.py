@@ -12,7 +12,7 @@ from keras.layers.merge import concatenate
 from keras.models import Model
 
 from app.dictionaries import load_dictionaries
-from app.model_storage import weights_filepath
+from app.storage_service import weights_filepath
 
 def unweighted_model():
 
@@ -49,5 +49,6 @@ def unweighted_model():
 
 def load_model():
 	model = unweighted_model()
+	print("LOADING MODEL WEIGHTS...")
 	model.load_weights(weights_filepath())
 	return model
