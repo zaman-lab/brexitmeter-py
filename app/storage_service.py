@@ -2,7 +2,7 @@
 
 import os
 from dotenv import load_dotenv
-#from google.cloud import storage
+from google.cloud import storage
 
 load_dotenv()
 
@@ -23,19 +23,23 @@ def weights_filepath(storage_env=STORAGE_ENV):
 def dictionaries_dirpath(storage_env=STORAGE_ENV):
 	return os.path.join(storage_path(storage_env), "dictionaries")
 
-#def my_buckets():
-#    storage_client = storage.Client()
-#    buckets = list(storage_client.list_buckets())
-#	return buckets
+def my_buckets():
+	storage_client = storage.Client()
+	buckets = list(storage_client.list_buckets())
+	return buckets
 
 if __name__ == "__main__":
 
-	#for bucket in my_buckets():
-	#	print(bucket)
+	for bucket in my_buckets():
+		print(bucket)
+
+	remote_filepaths = [
+		weights_filepath("remote"),
+		os.path.join(dictionaries_dirpath("remote"), "dic.txt"),
+		os.path.join(dictionaries_dirpath("remote"), "dic_s.txt"),
+		os.path.join(storage_path("remote"), "gradebook.csv"),
+	]
 
 	import tensorflow as tf
-	print(tf.io.gfile.exists(weights_filepath("remote")))
-	print(tf.io.gfile.exists(os.path.join(dictionaries_dirpath("remote"), "dic.txt")))
-	print(tf.io.gfile.exists(os.path.join(dictionaries_dirpath("remote"), "dic_s.txt")))
-	print(tf.io.gfile.exists(os.path.join(storage_path("remote"), "gradebook.csv")))
-	# todo: read gradebook.csv file with pandas
+	for filepath in remote_filepaths:
+		print(filepath, tf.io.gfile.exists(filepath))
