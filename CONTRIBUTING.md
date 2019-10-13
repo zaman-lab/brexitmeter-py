@@ -17,6 +17,14 @@ pip install -r requirements.txt # (first time only)
 
 > see "requirements.txt" for a list of package dependencies
 
+### Configuring Twitter API Credentials
+
+Create a Twitter account like "@brexitmeter_bot", and set it as the `TWITTER_BOT_HANDLE` environment variable.
+
+Obtain credentials for your own app with access to the Twitter API, and set the following environment variables: `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET`
+
+> this section only if you want to run your own bot. you can still use the classifier without setting up a new bot
+
 ### Configuring Model File Storage
 
 This app needs access to model artifact files, namely the final (pre-trained) weights, and two dictionaries of text.
@@ -29,11 +37,11 @@ You can download these files into this repo to access them locally, or configure
 
 > see "env.example" for a list of environment variables, with example values
 
-### Configuring Twitter API Credentials
+After configuring access to remote model files, you can run the storage service to verify all files are in place:
 
-Create a Twitter account like "@brexitmeter_bot", and set it as the `TWITTER_BOT_HANDLE` environment variable.
-
-Obtain credentials for your own app with access to the Twitter API, and set the following environment variables: `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET`
+```sh
+python -m app.storage_service
+```
 
 ## Usage
 
