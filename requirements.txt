@@ -2,16 +2,16 @@
 # KERAS MODEL
 keras
 tensorflow # prerequisite for keras
-
 # NLP
 gensim
 wordsegment
 nltk
 
-# TWITTER
 python-dotenv
 tweepy
+boto3
+
+
+pandas
 #pillow
-
-
 #numpy

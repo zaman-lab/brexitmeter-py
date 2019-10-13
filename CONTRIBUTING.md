@@ -1,5 +1,10 @@
 # Contributor's Guide
 
+## Prerequisites
+
+### Amazon S3
+
+Gain access to the model file. Observe it's object URL, and set the environment variable `MODEL_FILE_URL` accordingly.
 
 ## Setup
 

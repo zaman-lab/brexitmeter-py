@@ -38,6 +38,14 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + [Twitter API](https://developer.twitter.com/en/apps/)
   + [Twitter API Restricted Use Cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases)
 
+## Amazon S3
+
+  + [S3 Boto Python Package Source](https://github.com/boto/boto3)
+  + [Tutorial](https://realpython.com/python-boto3-aws-s3/)
+  + [S3 API Docs](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+  + [`S3.Client.get_object`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.get_object)
+  + [`S3.ServiceResource.Buckets`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.ServiceResource.buckets)
+  + [`S3.Object`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#object)
 
 <hr>
 
