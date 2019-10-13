@@ -21,6 +21,7 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + [Gensim Source](https://github.com/RaRe-Technologies/gensim)
   + [Gensim Docs](https://radimrehurek.com/gensim/apiref.html)
   + [Gensim Quickstart](https://github.com/RaRe-Technologies/gensim/blob/develop/docs/notebooks/gensim%20Quick%20Start.ipynb)
+  + [`Dictionary.load()`](https://radimrehurek.com/gensim/corpora/dictionary.html#gensim.corpora.dictionary.Dictionary.load)
 
 ### Wordsegment
 

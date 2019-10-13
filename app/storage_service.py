@@ -21,7 +21,7 @@ def weights_filepath(storage_env=STORAGE_ENV):
 	return os.path.join(storage_path(storage_env), "weights", "final_weights.hdf5")
 
 def dictionaries_dirpath(storage_env=STORAGE_ENV):
-	return os.path.join(storage_path(storage_env), "dictionaries")
+	return os.path.join(storage_path("local"), "dictionaries")
 
 def my_buckets():
 	storage_client = storage.Client()
