@@ -47,7 +47,9 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + [`S3.ServiceResource.Buckets`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.ServiceResource.buckets)
   + [`S3.Object`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#object)
 
+## Google Cloud Storage
 
+  + [Making buckets public](https://cloud.google.com/storage/docs/access-control/making-data-public)
 
 <hr>
 
