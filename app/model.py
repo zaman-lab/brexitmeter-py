@@ -12,7 +12,7 @@ from keras.layers.merge import concatenate
 from keras.models import Model
 
 from app.dictionaries import load_dictionaries
-from app.storage_service import STORAGE_ENV, LOCAL_WEIGHTS_FILEPATH, REMOTE_WEIGHTS_FILEPATH
+from app.model_storage import weights_filepath
 
 def unweighted_model():
 
@@ -47,13 +47,7 @@ def unweighted_model():
 
 	return model
 
-def load_model(storage_env=STORAGE_ENV):
+def load_model():
 	model = unweighted_model()
-	print(f"LOADING WEIGHTS FROM {storage_env.upper()} FILE")
-	if storage_env == "remote":
-		model.load_weights(REMOTE_WEIGHTS_FILEPATH)
-	elif storage_env == "local":
-		model.load_weights(LOCAL_WEIGHTS_FILEPATH)
-	else:
-		model = remote_model()
+	model.load_weights(weights_filepath())
 	return model

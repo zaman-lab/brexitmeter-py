@@ -19,7 +19,7 @@ CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY", default="OOPS")
 CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET", default="OOPS")
 ACCESS_KEY = os.getenv("TWITTER_ACCESS_TOKEN", default="OOPS")
 ACCESS_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET", default="OOPS")
-USER_HANDLE = os.getenv("TWITTER_USER_HANDLE", default="@brexitmeter_bot")
+BOT_HANDLE = os.getenv("TWITTER_BOT_HANDLE", default="@brexitmeter_bot")
 
 class StdOutListener(StreamListener):
     """ Opens a connection with the Twitter API, handles a stream of specified tweet events."""
@@ -41,10 +41,10 @@ class StdOutListener(StreamListener):
         print(status.text)
         print(status.user.screen_name)
 
-        if(USER_HANDLE in status.text):
+        if(BOT_HANDLE in status.text):
 
-            tweetText_ = status.text.split(USER_HANDLE)
-            tweetText = ''.join([i for i in tweetText_ if USER_HANDLE not in i])
+            tweetText_ = status.text.split(BOT_HANDLE)
+            tweetText = ''.join([i for i in tweetText_ if BOT_HANDLE not in i])
             temp=tweetText.split(' ')[1:]
             print(temp)
             #sort out any white spaces left over from splitting
@@ -119,6 +119,6 @@ if __name__ == '__main__':
     stream = Stream(listener.auth, listener)
     print("STREAM", type(stream))
 
-    stream.filter(track=[USER_HANDLE])
+    stream.filter(track=[BOT_HANDLE])
 
     breakpoint() # this never gets reached. the stream is connected

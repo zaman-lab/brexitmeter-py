@@ -3,12 +3,12 @@ from os
 
 from gensim.corpora import Dictionary
 
-from storage import STORAGE_ENV
+from app.storage import STORAGE_ENV
 
 def load_dictionaries(storage_env=STORAGE_ENV):
 	print(f"LOADING DICTIONARIES FROM {storage_env.upper()} STORAGE")
 	if storage_env == "remote":
-		dictionaries_dirpath = ____________
+		dictionaries_dirpath =
 	elif model_env == "local":
 		dictionaries_dirpath = os.path.join(os.path.dirname(__file__), "..", "dictionary")
 
