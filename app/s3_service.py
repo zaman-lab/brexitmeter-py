@@ -1,6 +1,10 @@
+import contextlib
 import os
 from dotenv import load_dotenv
 import boto3
+import h5py
+
+from app.model import unweighted_model
 
 load_dotenv()
 
@@ -25,8 +29,35 @@ if __name__ == "__main__":
 
 	file_contents = response["Body"].read() #> <class 'bytes'>
 
-	#import pandas
+	model = unweighted_model()
+
 	breakpoint()
 
+	model.load_weights(file_contents)
 
-	#df = pandas.read_csv(file_contents)
+
+
+	#
+	# https://stackoverflow.com/a/57923863/670433
+	# https://github.com/keras-team/keras/issues/9343#issuecomment-440903847
+	# https://github.com/keras-team/keras/pull/11708/files
+	# https://github.com/keras-team/keras/issues/9343
+	# https://github.com/keras-team/keras/pull/11636
+	#
+
+	file_access_property_list = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
+	file_access_property_list.set_fapl_core(backing_store=False)
+	file_access_property_list.set_file_image(file_contents)
+
+	file_id_args = {
+		'fapl': file_access_property_list,
+		'flags': h5py.h5f.ACC_RDONLY,
+		'name': b'this should never matter',
+	}
+	h5_file_args = {'backing_store': False, 'driver': 'core', 'mode': 'r'}
+
+	with contextlib.closing(h5py.h5f.open(**file_id_args)) as file_id:
+		with h5py.File(file_id, **h5_file_args) as h5_file:
+			model.load_weights(h5_file) #> TypeError: expected str, bytes or os.PathLike object, not File
+
+	breakpoint()

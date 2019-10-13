@@ -12,7 +12,7 @@ from keras.models import Model
 
 from app.dictionaries import load_dictionaries
 
-def load_model():
+def unweighted_model():
 
 	dictionary, dictionary_s = load_dictionaries()
 	dictionary_size, dictionary_size_s = len(dictionary), len(dictionary_s)
@@ -43,7 +43,12 @@ def load_model():
 	model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 	#print(model.summary())
 
-	#load model weights
+	return model
+
+def loaded_model(model=None):
+	if not model:
+		model = unweighted_model()
+
 	WEIGHTS_FILEPATH = path.join(path.dirname(__file__), "..", "model", "final_weights.hdf5")
 	model.load_weights(WEIGHTS_FILEPATH)
-	return(model)
+	return model

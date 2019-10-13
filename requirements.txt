@@ -12,6 +12,7 @@ tweepy
 boto3
 
 
+h5py
 pandas
 #pillow
 #numpy
