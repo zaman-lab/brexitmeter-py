@@ -206,17 +206,16 @@ heroku ps:resize bot=performance-m #>
 # heroku ps:scale bot=2
 ```
 
-
-
 Performance medium seems big enough to handle the job! Haha only $250/mo. Whaa.
 
+Running into NLTK issues on the server, but getting closer. OK see NLTK section for the solution.
 
+Can the bot work with a standard-2x size dyno at only $50/mo?
 
+Seems to be doing ok.
 
-
-Running into NLTK issues on the server, but getting closer.
-
-
+But with a large scale of tweets, ran into "[{'code': 326, 'message': 'To protect our users from spam and other malicious activity, this account is temporarily locked. Please log in to https://twitter.com to unlock your account.'}]
+" LOL no!
 
 
 
