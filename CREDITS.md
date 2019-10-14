@@ -148,6 +148,16 @@ git push heroku gcs:master
 ```
 
 
+OK, looks like its running, but then running out of memory after starting to load the weights. Maybe scale up the dynos...
+
+
+  + https://devcenter.heroku.com/articles/dynos
+  + https://devcenter.heroku.com/articles/procfile
+
+```sh
+heroku ps:scale
+```
+
 
 
 
@@ -190,3 +200,6 @@ It adds the ".gcloudignore" file. Need to add an entry `"#!include:.gitignore"` 
 gcloud app logs tail -s default
 gcloud app logs read
 ```
+
+
+/app/google-credentials.json
