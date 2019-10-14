@@ -4,9 +4,14 @@ from wordsegment import load, segment
 import re
 import string
 from nltk.corpus import stopwords # FYI: might need to also nltk.download()
+
 from keras.preprocessing import sequence
 
 from app.dictionaries import load_dictionaries
+from app.storage_service import BOT_ENV
+
+if BOT_ENV == "production":
+     nltk.download('stopwords')
 
 load()
 
@@ -73,3 +78,12 @@ def main_clean(twt):
     #make x
     x = [twt, twt_s]
     return(x)
+
+
+if __name__ == "__main__":
+    english_stopwords = stopwords.words("english")
+
+    print("ENGLISH STOPWORDS", len(english_stopwords), "...")
+
+    for word in english_stopwords:
+        print(" + ", word)

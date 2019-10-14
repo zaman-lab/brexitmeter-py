@@ -34,6 +34,32 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + [NLTK Source](https://github.com/nltk/nltk)
   + [NLTK Notes](https://github.com/prof-rossetti/nyu-info-2335-201905/blob/master/notes/python/packages/nltk.md)
 
+
+On the server:
+
+
+    Resource stopwords not found.
+    Please use the NLTK Downloader to obtain the resource:
+
+    >>> import nltk
+    >>> nltk.download('stopwords')
+
+    For more information see: https://www.nltk.org/data.html
+
+    Attempted to load corpora/stopwords
+
+    Searched in:
+    - '/app/nltk_data'
+    - '/app/.heroku/python/nltk_data'
+    - '/app/.heroku/python/share/nltk_data'
+    - '/app/.heroku/python/lib/nltk_data'
+    - '/usr/share/nltk_data'
+    - '/usr/local/share/nltk_data'
+    - '/usr/lib/nltk_data'
+    - '/usr/local/lib/nltk_data'
+    **************************************************
+
+
 ## Twitter
 
   + [Twitter API](https://developer.twitter.com/en/apps/)
@@ -179,7 +205,13 @@ heroku ps:resize bot=performance-m #>
 
 
 
+Performance medium seems big enough to handle the job! Haha only $250/mo. Whaa.
 
+
+
+
+
+Running into NLTK issues on the server, but getting closer.
 
 
 
