@@ -134,5 +134,29 @@ Need a way to [use keras' google storage integration with explicit credentials](
 
 ## Deploying to Google App Engine
 
+Create a new google app engine app from your project page in the google cloud console.
 
-gh
+  + [Getting Started with App Engine Python 3.7](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+  + [Download the SDK (`gcloud` CLI)](https://cloud.google.com/sdk/docs/)
+  + [Brew cask formula](https://formulae.brew.sh/cask/google-cloud-sdk)
+
+```sh
+brew cask install google-cloud-sdk
+```
+
+Login to your google cloud account, and pick the right project:
+
+```sh
+gcloud init
+#> Your Google Cloud SDK is configured and ready to use!
+```
+
+Add an "app.yaml" file, then deploy to app engine:
+
+```sh
+gcloud app deploy
+```
+
+It adds the ".gcloudignore" file. Need to add an entry `"#!include:.gitignore"` to that file.
+
+  + [Granting roles to service accounts](https://cloud.google.com/iam/docs/granting-roles-to-service-accounts)
