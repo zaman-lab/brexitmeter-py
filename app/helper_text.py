@@ -8,10 +8,10 @@ from nltk.corpus import stopwords # FYI: might need to also nltk.download()
 from keras.preprocessing import sequence
 
 from app.dictionaries import load_dictionaries
-from app.storage_service import BOT_ENV
 
-if BOT_ENV == "production":
-     nltk.download('stopwords')
+#from app.storage_service import BOT_ENV
+#if BOT_ENV == "production":
+#     nltk.download('stopwords')
 
 load()
 

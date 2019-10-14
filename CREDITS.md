@@ -59,6 +59,9 @@ On the server:
     - '/usr/local/lib/nltk_data'
     **************************************************
 
+OK [heroku was actually looking for the "nltk.txt" file](https://devcenter.heroku.com/articles/python-nltk), so adding it and trying again...
+
+  + https://stackoverflow.com/questions/18385303/how-to-install-nltk-modules-in-heroku
 
 ## Twitter
 
