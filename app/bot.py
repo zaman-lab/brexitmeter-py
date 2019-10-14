@@ -45,6 +45,9 @@ class StdOutListener(StreamListener):
 
             tweetText_ = status.text.split(BOT_HANDLE)
             tweetText = ''.join([i for i in tweetText_ if BOT_HANDLE not in i])
+            print("RECONSTRUCTED TEXT:", tweetText)
+            print(tweetText)
+
             temp=tweetText.split(' ')[1:]
             print(temp)
             #sort out any white spaces left over from splitting

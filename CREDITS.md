@@ -148,16 +148,33 @@ git push heroku gcs:master
 ```
 
 
-OK, looks like its running, but then running out of memory after starting to load the weights. Maybe scale up the dynos...
+OK, looks like its running, but then running out of memory after starting to load the weights.
+
+> Process running mem=968M(189.1%)
+> 2019-10-14T02:16:19.868897+00:00 heroku[bot.1]: Error R14 (Memory quota exceeded)
+> 2019-10-14T02:16:30.384069+00:00 heroku[bot.1]: Process running mem=1279M(250.0%)
+> 2019-10-14T02:16:30.408076+00:00 heroku[bot.1]: Error R15 (Memory quota vastly exceeded)
+> 2019-10-14T02:16:30.413896+00:00 heroku[bot.1]: Stopping process with SIGKILL
+> 2019-10-14T02:16:30.54627+00:00 heroku[bot.1]: Process exited with status 137
+> 2019-10-14T02:16:30.587393+00:00 heroku[bot.1]: State changed from up to crashed
+> 2019-10-14T02:17:50.329884+00:00 heroku[bot.1]: State changed from crashed to down
+
+
+Maybe scale up the dynos...
 
 
   + https://devcenter.heroku.com/articles/dynos
   + https://devcenter.heroku.com/articles/procfile
+  + https://devcenter.heroku.com/articles/dyno-types
 
 ```sh
-heroku ps:scale bot=2
-heroku ps:resize bot=hobby
-heroku ps:resize bot=standard-2x
+heroku logs --ps bot
+
+# heroku ps:resize bot=hobby #> free, hobby, standard-1x each have 512 MB.
+# heroku ps:resize bot=standard-2x #>
+heroku ps:resize bot=performance-m #>
+
+# heroku ps:scale bot=2
 ```
 
 
