@@ -132,6 +132,30 @@ Oh no this doesn't work. Getting error:
 
 Need a way to [use keras' google storage integration with explicit credentials](https://stackoverflow.com/questions/58368853/keras-integration-with-google-cloud-storage-model-files-using-explicit-credenti), or need to run this app on Google App Engine instead of Heroku, and setup the app engine to have access to the api credentials.
 
+
+EDIT:
+
+[Oh wait maybe...](https://stackoverflow.com/questions/47446480/how-to-use-google-api-credentials-json-on-heroku)
+
+  + [buildpacks](https://devcenter.heroku.com/articles/buildpacks#using-a-third-party-buildpack)
+
+
+```sh
+heroku config:set GOOGLE_CREDENTIALS="$(< credentials.json)"
+heroku config:set GOOGLE_APPLICATION_CREDENTIALS="google-credentials.json"
+heroku buildpacks:add https://github.com/elishaterada/heroku-google-application-credentials-buildpack
+git push heroku gcs:master
+```
+
+
+
+
+
+
+
+
+
+
 ## Deploying to Google App Engine
 
 Create a new google app engine app from your project page in the google cloud console.
@@ -160,3 +184,9 @@ gcloud app deploy
 It adds the ".gcloudignore" file. Need to add an entry `"#!include:.gitignore"` to that file.
 
   + [Granting roles to service accounts](https://cloud.google.com/iam/docs/granting-roles-to-service-accounts)
+
+
+```sh
+gcloud app logs tail -s default
+gcloud app logs read
+```
