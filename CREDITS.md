@@ -54,7 +54,6 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + https://cloud.google.com/python/docs/reference/
   + https://cloud.google.com/storage/docs/reference/libraries
 
-
 <hr>
 
 ## Git Large File Storage
@@ -86,7 +85,7 @@ git commit -m "Configure Git Large File Storage, and add the model file"
 git push origin master
 ```
 
-## Deploying Large Files to Heroku
+## Deploying to Heroku
 
 Normal `git push heroku gcs:master` fails due to something related to LFS:
 
@@ -116,7 +115,24 @@ Alright. Here we go.
 ```sh
 heroku run "python -m app.bot"
 ```
-
-#> FileNotFoundError: [Errno 2] No such file or directory: '/app/app/../dictionary/dic.txt'
+> FileNotFoundError: [Errno 2] No such file or directory: '/app/app/../dictionary/dic.txt'
 
 Oh right, need to upload the dictionary files to GCS as well...
+
+Checked them into the repo.
+
+Oh, right, need to somehow upload credentials.json to Heroku...
+
+```sh
+heroku config:set GOOGLE_APPLICATION_CREDENTIALS="$(< credentials.json)"
+```
+
+Oh no this doesn't work. Getting error:
+> 'File {} was not found.'.format(filename) google.auth.exceptions.DefaultCredentialsError
+
+Need a way to [use keras' google storage integration with explicit credentials](https://stackoverflow.com/questions/58368853/keras-integration-with-google-cloud-storage-model-files-using-explicit-credenti), or need to run this app on Google App Engine instead of Heroku, and setup the app engine to have access to the api credentials.
+
+## Deploying to Google App Engine
+
+
+gh
