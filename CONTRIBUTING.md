@@ -100,6 +100,7 @@ heroku create # (first time only)
 Configure environment variables:
 
 ```sh
+heroku config set BOT_ENV="production"
 heroku config set STORAGE_ENV="remote"
 # etc... (see all env vars in ".env.example" file)
 ```

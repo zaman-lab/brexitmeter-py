@@ -155,7 +155,9 @@ OK, looks like its running, but then running out of memory after starting to loa
   + https://devcenter.heroku.com/articles/procfile
 
 ```sh
-heroku ps:scale
+heroku ps:scale bot=2
+heroku ps:resize bot=hobby
+heroku ps:resize bot=standard-2x
 ```
 
 

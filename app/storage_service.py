@@ -6,6 +6,7 @@ from google.cloud import storage
 
 load_dotenv()
 
+BOT_ENV = os.getenv("BOT_ENV", default="development") # "development" OR "production"
 STORAGE_ENV = os.getenv("STORAGE_ENV", default="local") # "local" OR "remote"
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", default="OOPS") # implicit check by google.cloud (and keras)
 GOOGLE_STORAGE_PATH=os.getenv("GOOGLE_STORAGE_PATH", default="gs://my_bucket")
