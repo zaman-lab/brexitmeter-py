@@ -91,13 +91,21 @@ pytest --disable-pytest-warnings
 
 ## Deploying
 
-Create a new app server:
+Create a new app server (first time only):
 
 ```sh
-heroku create # (first time only)
+heroku create
 ```
 
-Configure environment variables:
+Provision a buildpack Google API credentials buildpack, which will generate a "google-credentials.json" file on the server from the contents of an environment variable called `GOOGLE_CREDENTIALS`:
+
+```sh
+heroku buildpacks:add https://github.com/elishaterada/heroku-google-application-credentials-buildpack
+heroku config:set GOOGLE_CREDENTIALS="$(< credentials.json)"
+heroku config:set GOOGLE_APPLICATION_CREDENTIALS="google-credentials.json"
+```
+
+Configure the rest of the environment variables:
 
 ```sh
 heroku config set APP_ENV="production"
@@ -120,8 +128,20 @@ heroku run "python -m app.dictionaries"
 heroku run "python -m app.client"
 ```
 
-Run the bot in production:
+Run the bot in production, manually:
 
 ```sh
 heroku run "python -m app.bot"
+```
+
+Though ultimately you'll want to setup a Heroku "dyno" to run the bot as a background process (see "Procfile"):
+
+```sh
+heroku ps:resize bot=standard-2x
+```
+
+Checking logs:
+
+```sh
+heroku logs --ps bot
 ```
