@@ -1,6 +1,3 @@
-import os
-from dotenv import load_dotenv
-
 from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Embedding, SpatialDropout1D, Flatten
