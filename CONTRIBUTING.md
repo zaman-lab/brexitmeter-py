@@ -23,7 +23,7 @@ Create a ".env" file and set your environment variables there. See the ".env.exa
 
 ### Model File Storage
 
-To classify text, this app needs access to a file of the model's final weights, which we're hosting in a publicly-available Google Cloud Storage bucket called["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/)".
+To classify text, this app needs access to the model's final weights file, which we're hosting on a publicly-available Google Cloud Storage bucket called ["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/)".
 
 Feel free to use the files in this bucket (i.e. "remote" storage option), or download them into your local repository for faster file-load times (i.e. "local" storage option). Depending on which storage option you choose ("local" or "remote"), set the environment variable `STORAGE_ENV` accordingly.
 
@@ -53,25 +53,23 @@ OK, model setup complete! If you'd like to start using the classifier via a ligh
 
 ### Twitter Bot Setup
 
-Create a Twitter account with a handle like ["@brexitmeter_bot"](https://twitter.com/brexitmeter_bot), and set the `TWITTER_BOT_HANDLE` environment variable accordingly.
+Create a [Twitter account](https://twitter.com/) with a handle like ["@brexitmeter_bot"](https://twitter.com/brexitmeter_bot), and set the `TWITTER_BOT_HANDLE` environment variable accordingly.
 
-Obtain credentials for your own app with access to the Twitter API, and set the environment variables `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET` accordingly.
+Obtain credentials for your own [Twitter app](https://developer.twitter.com/) with access to the Twitter API, and set the environment variables `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET` accordingly.
 
 ## Usage
 
-Run the classifier via an interactive command-line client:
+### CLI
+
+Run the classifier via a command-line client, where you'll have the opportunity to classify your own user-provided text:
 
 ```sh
 APP_ENV="development" python -m app.client
-
-# Tweet Text: I want to leave the EU
-#> This tweet is [0.8231815] Pro Brexit
-
-# Tweet Text: I want to stay in the EU
-#> This tweet is [0.6230951] Pro Brexit
 ```
 
-Run the classifier via an interactive Twitter Bot, which will reply to at-mentions with the classification of the tweet's text:
+### Twitter Bot
+
+Run the classifier via a Twitter Bot, which will reply to at-mentions with the predicted pro-Brexit score polarity score:
 
 ```sh
 python -m app.bot
