@@ -1,6 +1,6 @@
 # Brexitmeter
 
-The Brexitmeter is a text classifier model trained to recognize the degree to which any given Tweet expresses pro-Europe or pro-Brexit sentiments on a numeric scale from zero to one. Lower scores represent pro-Europe, while higher scores represent pro-Brexit.
+The Brexitmeter is a neural network model trained to classify the degree to which any given Tweet expresses pro-Europe or pro-Brexit sentiments on a numeric scale from zero to one, where lower scores represent pro-Europe and higher scores represent pro-Brexit.
 
 This repository contains a Python application capable of running the classifier via command-line or Twitter Bot interface.
 
