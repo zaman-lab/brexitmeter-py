@@ -67,7 +67,9 @@ class StdOutListener(StreamListener):
                     message = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
                 else:
                     message = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"
-            message += f" [env:{APP_ENV}]"
+
+            if APP_ENV != "production":
+                message += f" [env:{APP_ENV}]"
 
             #prevent bot loops - if we tweet the same person more than 10 times then start ignoring.
             if(status.author.screen_name == self.lastTweeted):
