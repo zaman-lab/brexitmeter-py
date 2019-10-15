@@ -13,4 +13,4 @@ __pycache__
 model/weights/final_weights.hdf5
 model/weights/*.hdf5
 
-# plots/*
+img/plots/*.png
