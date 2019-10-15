@@ -24,7 +24,7 @@ if __name__ == "__main__":
 			"I want the UK to stay EU #remain #remain #remain",
 			"I want the UK to leave EU #BrexitNow",
 		]
-		for txt in example_texts:
+		for user_text in example_texts:
 			results = classify(user_text, model)
 			print(results)
 	else:
