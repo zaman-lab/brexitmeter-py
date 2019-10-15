@@ -8,7 +8,7 @@ import tensorflow as tf # from tensorflow.io import gfile
 load_dotenv()
 
 STORAGE_ENV = os.getenv("STORAGE_ENV", default="local") # "local" OR "remote"
-GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", default="OOPS") # implicit check by google.cloud (and keras)
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", default="google-credentials.json") # implicit check by google.cloud (and keras)
 GOOGLE_STORAGE_PATH=os.getenv("GOOGLE_STORAGE_PATH", default="gs://brexitmeter-bucket")
 
 def storage_path(storage_env=STORAGE_ENV):
