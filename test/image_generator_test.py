@@ -3,7 +3,6 @@ import os
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 #from matplotlib.axes import AxesSubplot
-import matplotlib
 
 from app.image_generator import brexit_image
 

@@ -5,6 +5,8 @@ import time
 import matplotlib.pyplot as plt
 from PIL import Image
 
+from app import APP_ENV
+
 IMG_DIRPATH = os.path.join(os.path.dirname(__file__), "..", "img")
 BASE_IMG_FILEPATH = os.path.join(IMG_DIRPATH, "up_gauge.png")
 
@@ -61,8 +63,11 @@ def brexit_image(score, img_filepath=None):
 
 if __name__ == "__main__":
 
-    img_filepath, fig, ax = brexit_image(0.99) #> matplotlib.pyplot
-    plt.show()
+    if APP_ENV is not "production":
 
-    img_filepath, fig, ax = brexit_image(0.40) #> matplotlib.pyplot
-    plt.show()
+        polarity = input("Please choose a polarity score between 0 and 1 (e.g. 0.44): ")
+        if polarity == "": polarity = 0.44
+        else: polarity = float(polarity)
+
+        img_filepath, fig, ax = brexit_image(polarity) #> matplotlib.pyplot
+        plt.show()
