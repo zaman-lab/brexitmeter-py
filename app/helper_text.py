@@ -1,20 +1,20 @@
-import numpy as np
-# ## Upload utils for formatting the tweets
-#libraries for text processing 
-from wordsegment import load, segment
-from gensim.corpora import Dictionary
+# for text processing and formatting
+
+import wordsegment as ws
 import re
 import string
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords # FYI: need to run nltk.download() or nltk.download('stopwords') on your machine for this to work
 from keras.preprocessing import sequence
 
-#segmentation
-load()
+from app.dictionaries import load_dictionaries
+
+ws.load()
+dictionary, dictionary_s = load_dictionaries() # consider moving into a function, or caching as an attribute upon init of a class
+
 def my_replace(match):
     match = match.group()
-    return ' '.join(segment(match))
+    return ' '.join(ws.segment(match))
 
-#this function
 def process(twt):
     try:
         return(re.sub('#\w+', my_replace, twt))
@@ -22,12 +22,12 @@ def process(twt):
         return(None)
 
 def clean(twt):
-    #remove punctutation
+    #remove punctuation
     try:
         twt = twt.translate(str.maketrans('','',string.punctuation))
         twt = twt.split()
         twt = [i.lower() for i in twt]
-        twt = [i for i in twt if 'htt' not in i and 
+        twt = [i for i in twt if 'htt' not in i and
                                       i not in stopwords.words('english')]
         twt = ' '.join(twt)
         return(twt)
@@ -35,11 +35,7 @@ def clean(twt):
         print(e)
         return(None)
 
-
 #transform takes a clean tweet and tokenize it
-#load dictionary
-dictionary = Dictionary.load('Dictionary/dic.txt')
-# dictionary = Dictionary.load_from_text('Dictionary/dic.txt')
 def transform(twt, seq_len):
     twt = clean(twt).split()
     l = []
@@ -50,9 +46,7 @@ def transform(twt, seq_len):
             l.append(0)
     twt = sequence.pad_sequences([l], maxlen=seq_len)
     return(twt)
-#dictionary_s
-dictionary_s = Dictionary.load('Dictionary/dic_s.txt')
-# dictionary_s = Dictionary.load_from_text('Dictionary/dic_s.txt')
+
 def transform_s(twt, seq_len):
     twt = clean(twt).split()
     l = []
@@ -75,6 +69,15 @@ def main_clean(twt):
     #transform
     twt = transform(twt, 20)
     twt_s = transform_s(twt_s, 20)
-    #make x 
+    #make x
     x = [twt, twt_s]
     return(x)
+
+
+if __name__ == "__main__":
+    english_stopwords = stopwords.words("english")
+
+    print("ENGLISH STOPWORDS", len(english_stopwords), "...")
+
+    for word in english_stopwords:
+        print(" + ", word)

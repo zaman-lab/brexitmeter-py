@@ -1,30 +1,137 @@
 # Contributor's Guide
 
-## Git Large File Storage
+Hey, so you want to run this app yourself? Great. Follow the instructions in this guide.
 
-The model file is too large for normal Git, so in order to push to GitHub, we need to use [Git Large File Storage](https://git-lfs.github.com/).
+## Installation
 
-Install on a Mac via Homebrew, if necessary:
+Create and activate a virtual environment, using anaconda for example, if you like that kind of thing:
 
 ```sh
-brew install git-lfs # (first time only)
+conda create -n brexit-env python=3.7 # (first time only)
+conda activate brexit-env
 ```
 
-From within the repo's root directory, when it doesn't yet contain the model file, install and configure Git Large File Storage:
+Install package dependencies:
 
 ```sh
-git lfs install
-git lfs track "*.hdf5"
-git add .gitattributes
+pip install -r requirements.txt # (first time only)
 ```
 
-> NOTE: if your repo already has the model file checked in, I found I needed to actually `rm -rf .git` and create a new commit history in order for this to work. WARNING: this is a destructive action, as it will remove the previous commit history.
+## Setup
 
-Then add the model file and commit as normal, and you should be able to push:
+Create a ".env" file and set your environment variables there. See the ".env.example" file and instructions below for more details.
+
+### Model File Storage
+
+To classify text, this app needs access to the model's final weights file, which we're hosting on a publicly-available Google Cloud Storage bucket called ["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/).
+
+Feel free to use the files in this bucket (i.e. "remote" storage option), or download them into your local repository for faster file-load times (i.e. "local" storage option). Depending on which storage option you choose ("local" or "remote"), set the environment variable `STORAGE_ENV` accordingly. If choosing the "remote" storage option: download your Google Cloud API service account credentials and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable accordingly.
+
+After configuring your storage option, run the storage service to verify all files are in place:
 
 ```sh
-mv ~/Desktop/final_weights.hdf5 Final_weights/
-git add .
-git commit -m "Configure Git Large File Storage, and add the model file"
-git push origin master
+python -m app.storage_service
+```
+
+Run the dictionaries parser to inspect the word lists the model is using:
+
+```sh
+python -m app.dictionaries
+```
+
+OK, model setup complete! If you'd like to start using the classifier via a lightweight command-line interface, you can skip to the "Usage" section below.
+
+### Twitter Bot Setup
+
+Create a [Twitter account](https://twitter.com/) with a handle like ["@brexitmeter_bot"](https://twitter.com/brexitmeter_bot), and set the `TWITTER_BOT_HANDLE` environment variable accordingly.
+
+Obtain credentials for your own [Twitter app](https://developer.twitter.com/) with access to the Twitter API, and set the environment variables `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET` accordingly.
+
+## Usage
+
+### CLI
+
+Run the classifier via a command-line client, where you'll have the opportunity to classify your own user-provided text:
+
+```sh
+python -m app.client
+```
+
+### Twitter Bot
+
+Run the classifier via a Twitter Bot, which will reply to at-mentions with the predicted pro-Brexit score polarity score:
+
+```sh
+python -m app.bot
+```
+
+## Testing
+
+Install pytest:
+
+```sh
+pip install pytest # (first time only)
+```
+
+Run tests:
+
+```sh
+pytest --disable-pytest-warnings
+```
+
+## Deploying
+
+Create a new app server (first time only):
+
+```sh
+heroku create
+```
+
+Provision and configure the Google Application Credentials Buildpack to generate a credentials file on the server:
+
+```sh
+heroku buildpacks:add https://github.com/elishaterada/heroku-google-application-credentials-buildpack
+heroku config:set GOOGLE_CREDENTIALS="$(< credentials.json)"
+heroku config:set GOOGLE_APPLICATION_CREDENTIALS="google-credentials.json"
+```
+
+Configure the rest of the environment variables:
+
+```sh
+heroku config:set APP_ENV="production"
+heroku config:set STORAGE_ENV="remote"
+# etc...
+```
+
+Deploy:
+
+```sh
+git checkout master
+git push heroku master
+```
+
+Test everything is working in production:
+
+```sh
+heroku run "python -m app.storage_service"
+heroku run "python -m app.dictionaries"
+heroku run "python -m app.client"
+```
+
+Run the bot in production, manually:
+
+```sh
+heroku run "python -m app.bot"
+```
+
+... though ultimately you'll want to setup a Heroku "dyno" to run the bot as a background process (see the "Procfile"):
+
+```sh
+heroku ps:resize bot=standard-2x
+```
+
+Checking logs:
+
+```sh
+heroku logs --ps bot
 ```

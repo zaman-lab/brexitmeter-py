@@ -1,0 +1,16 @@
+
+keras
+tensorflow
+
+gensim
+wordsegment
+nltk
+
+python-dotenv
+tweepy
+google-cloud-storage
+
+#h5py
+#pandas
+#pillow
+#numpy

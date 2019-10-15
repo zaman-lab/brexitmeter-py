@@ -8,18 +8,15 @@ from keras.layers.convolutional import MaxPooling1D
 from keras.layers.merge import concatenate
 from keras.models import Model
 
-from gensim.corpora import Dictionary
+from app.dictionaries import load_dictionaries
+from app.storage_service import weights_filepath
 
-dictionary = Dictionary.load('Dictionary/dic.txt')
-dictionary_s = Dictionary.load('Dictionary/dic_s.txt')
-# In[10]:
-dictionary_size = len(dictionary)
-dictionary_size_s = len(dictionary_s)
+def unweighted_model():
 
+	dictionary, dictionary_s = load_dictionaries()
+	dictionary_size, dictionary_size_s = len(dictionary), len(dictionary_s)
+	#print("DICTIONARY SIZES:", dictionary_size, dictionary_size_s) #> 224011 219691
 
-# In[11]:
-
-def load_model():
 	#import model architecture
 	seq_len = 20
 	#input1
@@ -45,7 +42,10 @@ def load_model():
 	model = Model(inputs=[inputs1, inputs2], outputs=outputs)
 	#print(model.summary())
 
-	#load model weights 
-	model.load_weights('Final_weights/final_weights.hdf5')
-	return(model)
+	return model
 
+def load_model():
+	model = unweighted_model()
+	print("LOADING MODEL WEIGHTS...")
+	model.load_weights(weights_filepath())
+	return model
