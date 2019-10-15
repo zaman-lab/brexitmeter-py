@@ -1,25 +1,19 @@
-# for text processing and formatting the tweets
+# for text processing and formatting
 
-from wordsegment import load, segment
+import wordsegment as ws
 import re
 import string
-from nltk.corpus import stopwords # FYI: might need to also nltk.download()
-
+from nltk.corpus import stopwords # FYI: need to run nltk.download() or nltk.download('stopwords') on your machine for this to work
 from keras.preprocessing import sequence
 
 from app.dictionaries import load_dictionaries
 
-#from app.storage_service import BOT_ENV
-#if BOT_ENV == "production":
-#     nltk.download('stopwords')
-
-load()
-
-dictionary, dictionary_s = load_dictionaries()
+ws.load()
+dictionary, dictionary_s = load_dictionaries() # consider moving into a function, or caching as an attribute upon init of a class
 
 def my_replace(match):
     match = match.group()
-    return ' '.join(segment(match))
+    return ' '.join(ws.segment(match))
 
 def process(twt):
     try:

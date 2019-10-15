@@ -1,6 +1,8 @@
 # Contributor's Guide
 
-## Setup
+Hey, so you want to run this app yourself? Great. Follow the instructions in this guide.
+
+## Installation
 
 Create and activate a virtual environment, using anaconda for example, if you like that kind of thing:
 
@@ -9,54 +11,58 @@ conda create -n brexit-env python=3.7 # (first time only)
 conda activate brexit-env
 ```
 
-Install all package dependencies using pip:
+Install package dependencies:
 
 ```sh
 pip install -r requirements.txt # (first time only)
 ```
 
-> see "requirements.txt" for a list of package dependencies
+## Setup
 
-### Configuring Twitter API Credentials
+Create a ".env" file and set your environment variables there. See the ".env.example" file for examples, and sections below for more details.
 
-Create a Twitter account like "@brexitmeter_bot", and set it as the `TWITTER_BOT_HANDLE` environment variable.
+### Model File Storage
 
-Obtain credentials for your own app with access to the Twitter API, and set the following environment variables: `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET`
+To classify text, this app needs access to a file of the model's final weights, which we're hosting in a publicly-available Google Cloud Storage bucket called["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/)".
 
-> this section only if you want to run your own bot. you can still use the classifier without setting up a new bot
+Feel free to use the files in this bucket (i.e. "remote" storage option), or download them into your local repository for faster file-load times (i.e. "local" storage option). Depending on which storage option you choose ("local" or "remote"), set the environment variable `STORAGE_ENV` accordingly.
 
-### Configuring Model File Storage
+If choosing the "remote" storage option: download your Google Cloud API service account credentials and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable accordingly.
 
-This app needs access to model artifact files, namely the final (pre-trained) weights, and two dictionaries of text.
-
-You can download these files into this repo to access them locally, or configure google cloud storage to access them remotely.
-
- + set the `STORAGE_ENV` environment variable to "local" if you've downloaded the files into local storage, or "remote" to access the files hosted in google cloud storage
- + set the `GOOGLE_STORAGE_PATH` environment variable to our ["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/), or to your own bucket that contains the model files
- + set `GOOGLE_APPLICATION_CREDENTIALS` to the path where your google service account credentials are. it should be an absolute path. even though you're using our model files, you'll still need to configure your api access credentials
-
-> see "env.example" for a list of environment variables, with example values
-
-After configuring access to remote model files, you can run the storage service to verify all files are in place:
+After configuring your storage option, run the storage service to verify all files are in place:
 
 ```sh
 python -m app.storage_service
+
+#> True
+#> True
+# etc...
 ```
 
-You can also run the dictionaries parser to inspect the values (tokens) inside each of the dictionary files:
+Run the dictionaries parser to inspect the word lists the model is using:
 
 ```sh
 python -m app.dictionaries
+
+#> ()
+#> ()
+# etc...
 ```
+
+OK, model setup complete! If you'd like to start using the classifier via a lightweight command-line interface, you can skip to the "usage" section below.
+
+### Twitter Bot Setup
+
+Create a Twitter account with a handle like ["@brexitmeter_bot"](https://twitter.com/brexitmeter_bot), and set the `TWITTER_BOT_HANDLE` environment variable accordingly.
+
+Obtain credentials for your own app with access to the Twitter API, and set the environment variables `TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_TOKEN_SECRET` accordingly.
 
 ## Usage
 
-After configuring model storage access to the model files, you can use the model to make predictions.
-
-To test your ability to run the classifier, run the command-line client:
+Run the classifier via an interactive command-line client:
 
 ```sh
-python -m app.client
+APP_ENV="development" python -m app.client
 
 # Tweet Text: I want to leave the EU
 #> This tweet is [0.8231815] Pro Brexit
@@ -65,13 +71,11 @@ python -m app.client
 #> This tweet is [0.6230951] Pro Brexit
 ```
 
-After configuring Twitter API credentials, you can run the Twitter Bot:
+Run the classifier via an interactive Twitter Bot, which will reply to at-mentions with the classification of the tweet's text:
 
 ```sh
 python -m app.bot
 ```
-
-> then tweet at the bot's twitter handle and see the classification result in a reply tweet
 
 ## Testing
 
@@ -89,8 +93,6 @@ pytest --disable-pytest-warnings
 
 ## Deploying
 
-> NOTE: the model weights file is too large to be deployed to heroku, so we need to load it from remote storage instead.
-
 Create a new app server:
 
 ```sh
@@ -100,16 +102,16 @@ heroku create # (first time only)
 Configure environment variables:
 
 ```sh
-heroku config set BOT_ENV="production"
+heroku config set APP_ENV="production"
 heroku config set STORAGE_ENV="remote"
-# etc... (see all env vars in ".env.example" file)
+# etc...
 ```
 
 Deploy:
 
 ```sh
-git checkout gcs
-git push heroku gcs:master
+git checkout master
+git push heroku master
 ```
 
 Test everything is working in production:

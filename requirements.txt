@@ -1,18 +1,16 @@
 
-# KERAS MODEL
 keras
-tensorflow # prerequisite for keras
-# NLP
+tensorflow
+
 gensim
 wordsegment
 nltk
 
 python-dotenv
 tweepy
-boto3
-
 google-cloud-storage
+
 #h5py
-pandas
+#pandas
 #pillow
 #numpy

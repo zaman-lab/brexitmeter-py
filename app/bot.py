@@ -9,8 +9,9 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
+from app import APP_ENV
 from app.model import load_model
-from app.client import compute_polarity
+from app.client import classify
 #from make_gauge import plotGauge2
 
 load_dotenv()
@@ -57,16 +58,16 @@ class StdOutListener(StreamListener):
             if(len(temp)<=2):
                 message = '@' + status.author.screen_name + " Looks like this tweet is is only a few words... it's harder for me to infer polarity without more context "+ u"\U0001F914"
             else:
-                result = compute_polarity(tweetText, self.model) # pass in the pre-loaded model to prevent re-loading
-                print(result) #> ndarray with shape (1, 2)
-                score = result[0][1]
+                result = classify(tweetText, self.model) # pass in the pre-loaded model to prevent re-loading
+                print(result)
+                score = result["pro_brexit"]
                 #plotname=plotGauge2(score, status.author.screen_name)
-                print(score)
 
                 if score > 0.4 and score < 0.6:
                     message = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
                 else:
                     message = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"
+            message += f" [env:{APP_ENV}]"
 
             #prevent bot loops - if we tweet the same person more than 10 times then start ignoring.
             if(status.author.screen_name == self.lastTweeted):
@@ -85,7 +86,6 @@ class StdOutListener(StreamListener):
                 elif(self.wait > 0):
                     time.sleep(self.wait)
 
-                #media_filepath = os.path.join(path.dirname(__file__), "..", "img", "up_gauge.png")
                 media_filepath = os.path.join(os.path.dirname(__file__), "..", "img", "up_gauge.png")
                 self.api.update_with_media(
                     filename = media_filepath,
@@ -124,4 +124,4 @@ if __name__ == '__main__':
 
     stream.filter(track=[BOT_HANDLE])
 
-    breakpoint() # this never gets reached. the stream is connected
+    # this never gets reached

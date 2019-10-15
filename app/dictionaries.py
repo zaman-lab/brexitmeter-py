@@ -39,5 +39,3 @@ if __name__ == "__main__":
 	print("DICTIONARY 2", type(d1), len(d1))
 	for s in d2.iteritems():
 		print(s)
-
-	#breakpoint()
