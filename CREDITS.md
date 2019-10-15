@@ -1,8 +1,8 @@
 # Credits, Notes, and Reference
 
-This is a (re)production of the original @brexitmeter created by ____________.
+This is a (re)production of the [original @brexitmeter](https://twitter.com/brexitmeter).
 
-## Neural Network
+## Neural Networks
 
 ### Keras and Tensorflow
 
