@@ -6,11 +6,12 @@ gensim
 wordsegment
 nltk
 
-python-dotenv
+python-dotenv # a.k.a. dotenv, for reading environment vars from the ".env" file
 tweepy
 google-cloud-storage
 
+matplotlib # for image generation
+pillow # a.k.a. PIL, for image generation
 #h5py
 #pandas
-#pillow
 #numpy
