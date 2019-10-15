@@ -6,4 +6,4 @@ This repository contains a Python application capable of running the classifier 
 
 See the [Contributor's Guide](/CONTRIBUTING.md) for instructions on how to run the classifier yourself!
 
-See the [Credits file](/CREDITS.md) for additional details and acknowledgements.
+See the [Credits](/CREDITS.md) for additional details and acknowledgements.
