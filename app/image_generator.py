@@ -8,11 +8,15 @@ from PIL import Image
 from app import APP_ENV
 
 IMG_DIRPATH = os.path.join(os.path.dirname(__file__), "..", "img")
-BASE_IMG_FILEPATH = os.path.join(IMG_DIRPATH, "up_gauge.png")
+BASE_IMG_FILEPATH = os.path.abspath(os.path.join(IMG_DIRPATH, "up_gauge.png"))
 
-def brexit_image(score, img_filepath=None):
+def save_brexit_image(score, img_filepath=None):
     """
-    Plots a colored dial from 0 to 1, with an arrow marking the specific polarity score in-between
+    Plots a colored dial from 0 to 1, with an arrow marking the specific polarity score in-between.
+    Saves the image to the desired filepath.
+    Params:
+        score (float) between 0 and 1, like 0.55
+        img_filepath (str) optional
     """
 
     if not img_filepath:
@@ -59,15 +63,17 @@ def brexit_image(score, img_filepath=None):
 
     plt.savefig(img_filepath, bbox_inches="tight", pad_inches=0.5)
 
-    return img_filepath, fig, ax
+    return img_filepath #, fig, ax
 
 if __name__ == "__main__":
 
     if APP_ENV is not "production":
 
-        polarity = input("Please choose a polarity score between 0 and 1 (e.g. 0.44): ")
-        if polarity == "": polarity = 0.44
-        else: polarity = float(polarity)
+        polarity = 0.44
+        polarity_input = input("Please choose a polarity score between 0 and 1 (e.g. 0.44): ")
+        if polarity_input != "":
+            polarity = float(polarity_input)
 
-        img_filepath, fig, ax = brexit_image(polarity) #> matplotlib.pyplot
+        img_filepath = save_brexit_image(polarity) #> matplotlib.pyplot
+        print(os.path.abspath(img_filepath))
         plt.show()
