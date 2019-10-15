@@ -54,7 +54,7 @@ Obtain credentials for your own [Twitter app](https://developer.twitter.com/) wi
 Run the classifier via a command-line client, where you'll have the opportunity to classify your own user-provided text:
 
 ```sh
-APP_ENV="development" python -m app.client
+python -m app.client
 ```
 
 ### Twitter Bot
@@ -98,8 +98,8 @@ heroku config:set GOOGLE_APPLICATION_CREDENTIALS="google-credentials.json"
 Configure the rest of the environment variables:
 
 ```sh
-heroku config set APP_ENV="production"
-heroku config set STORAGE_ENV="remote"
+heroku config:set APP_ENV="production"
+heroku config:set STORAGE_ENV="remote"
 # etc...
 ```
 
