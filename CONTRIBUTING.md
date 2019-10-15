@@ -19,37 +19,27 @@ pip install -r requirements.txt # (first time only)
 
 ## Setup
 
-Create a ".env" file and set your environment variables there. See the ".env.example" file for examples, and sections below for more details.
+Create a ".env" file and set your environment variables there. See the ".env.example" file and instructions below for more details.
 
 ### Model File Storage
 
-To classify text, this app needs access to the model's final weights file, which we're hosting on a publicly-available Google Cloud Storage bucket called ["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/)".
+To classify text, this app needs access to the model's final weights file, which we're hosting on a publicly-available Google Cloud Storage bucket called ["brexitmeter-bucket"](https://console.cloud.google.com/storage/browser/brexitmeter-bucket/).
 
-Feel free to use the files in this bucket (i.e. "remote" storage option), or download them into your local repository for faster file-load times (i.e. "local" storage option). Depending on which storage option you choose ("local" or "remote"), set the environment variable `STORAGE_ENV` accordingly.
-
-If choosing the "remote" storage option: download your Google Cloud API service account credentials and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable accordingly.
+Feel free to use the files in this bucket (i.e. "remote" storage option), or download them into your local repository for faster file-load times (i.e. "local" storage option). Depending on which storage option you choose ("local" or "remote"), set the environment variable `STORAGE_ENV` accordingly. If choosing the "remote" storage option: download your Google Cloud API service account credentials and set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable accordingly.
 
 After configuring your storage option, run the storage service to verify all files are in place:
 
 ```sh
 python -m app.storage_service
-
-#> True
-#> True
-# etc...
 ```
 
 Run the dictionaries parser to inspect the word lists the model is using:
 
 ```sh
 python -m app.dictionaries
-
-#> ()
-#> ()
-# etc...
 ```
 
-OK, model setup complete! If you'd like to start using the classifier via a lightweight command-line interface, you can skip to the "usage" section below.
+OK, model setup complete! If you'd like to start using the classifier via a lightweight command-line interface, you can skip to the "Usage" section below.
 
 ### Twitter Bot Setup
 
@@ -97,7 +87,7 @@ Create a new app server (first time only):
 heroku create
 ```
 
-Provision a buildpack Google API credentials buildpack, which will generate a "google-credentials.json" file on the server from the contents of an environment variable called `GOOGLE_CREDENTIALS`:
+Provision and configure the Google Application Credentials Buildpack to generate a credentials file on the server:
 
 ```sh
 heroku buildpacks:add https://github.com/elishaterada/heroku-google-application-credentials-buildpack
@@ -134,7 +124,7 @@ Run the bot in production, manually:
 heroku run "python -m app.bot"
 ```
 
-Though ultimately you'll want to setup a Heroku "dyno" to run the bot as a background process (see "Procfile"):
+... though ultimately you'll want to setup a Heroku "dyno" to run the bot as a background process (see the "Procfile"):
 
 ```sh
 heroku ps:resize bot=standard-2x
