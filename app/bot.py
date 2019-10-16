@@ -12,7 +12,7 @@ from tweepy import Stream
 from app import APP_ENV
 from app.model import load_model
 from app.client import classify
-#from make_gauge import plotGauge2
+from app.image_generator import save_brexit_image
 
 load_dotenv()
 
@@ -36,42 +36,12 @@ class StdOutListener(StreamListener):
         self.model = load_model()
 
     def on_status(self, status):
-
         print("----------------")
         print("DETECTED AN INCOMING TWEET!")
-        print(status.text)
-        print(status.user.screen_name)
+        print(status.user.screen_name, "says:", status.text)
 
         if(BOT_HANDLE in status.text):
-
-            tweetText_ = status.text.split(BOT_HANDLE)
-            tweetText = ''.join([i for i in tweetText_ if BOT_HANDLE not in i])
-            print("RECONSTRUCTED TEXT:", tweetText)
-            print(tweetText)
-
-            temp=tweetText.split(' ')[1:]
-            print(temp)
-            #sort out any white spaces left over from splitting
-            #account for if username is at the start of a tweet/in the middle/at the end
-            tweetText = ''.join(tweetText)
-
-            if(len(temp)<=2):
-                message = '@' + status.author.screen_name + " Looks like this tweet is is only a few words... it's harder for me to infer polarity without more context "+ u"\U0001F914"
-            else:
-                result = classify(tweetText, self.model) # pass in the pre-loaded model to prevent re-loading
-                print(result)
-                score = result["pro_brexit"]
-                #plotname=plotGauge2(score, status.author.screen_name)
-
-                if score > 0.4 and score < 0.6:
-                    message = '@' + status.author.screen_name + " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
-                else:
-                    message = '@' + status.author.screen_name + " I think this tweet is " + str(int(score*100)) +  " % Pro Brexit"
-
-            if APP_ENV != "production":
-                message += f" [env:{APP_ENV}]"
-
-            #prevent bot loops - if we tweet the same person more than 10 times then start ignoring.
+            # prevent bot loops - if we tweet the same person more than 10 times then start ignoring
             if(status.author.screen_name == self.lastTweeted):
                 self.lastTweetedCount += 1
             else:
@@ -81,45 +51,77 @@ class StdOutListener(StreamListener):
             if(status.in_reply_to_status_id is not None):
                 return
 
-            #rate limiting - if attempts is greater than 10, give up
             try:
+                # rate limiting - if attempts is greater than 10, give up
                 if(self.wait > 10):
+                    print("TOO MUCH WAITING AROUND...", self.wait)
                     return
                 elif(self.wait > 0):
+                    print("SLEEPING FOR...", self.wait)
                     time.sleep(self.wait)
 
-                media_filepath = os.path.join(os.path.dirname(__file__), "..", "img", "up_gauge.png")
-                self.api.update_with_media(
-                    filename = media_filepath,
-                    status = message,
-                    in_reply_to_status_id = status.id
-                )
+                message, media_filepath = self.compile_reply(status)
+                print("MESSAGE:", message)
+
+                request_params = {"status": message, "in_reply_to_status_id": status.id}
+                if media_filepath and os.path.isfile(media_filepath):
+                    upload_result = self.api.media_upload(media_filepath)
+                    request_params["media_ids"] = [upload_result.media_id_string]
+                    os.remove(media_filepath)
+
+                response = self.api.update_status(**request_params) # ** converts a:b dict to a=b formatted params
+                print("RESPONSE", type(response)) #> <class 'tweepy.models.Status'
 
                 self.wait = 0
-            except Exception as a:
-                print(a)
+            except Exception as err:
+                print("EXCEPTION", err)
                 self.wait += 1
                 return
 
-            except Exception as  e:
-                print(e)
-                return
+    def compile_reply(self, status):
+        message = f"@{status.author.screen_name} "
+        media_filepath = None
 
-            #if os.path.exists(media_filepath):
-            #    os.remove(media_filepath)
+        # remove the bot's handle... consider moving this logic into the classifier itself?
+        print(status.text)
+        tweet_text = status.text #> 'Testing the @brexitmeter_bot Oh yeah!'
+        tweet_text = "".join(tweet_text.split(BOT_HANDLE)) #> 'Testing the  Oh yeah!'
+        tweet_text = " ".join(tweet_text.split()) #> 'Testing the Oh yeah!'
+        print(tweet_text)
 
-    def on_error(self, status):
-        print(status)
-        print (sys.stderr + ' Encountered error with status code: ' + status_code)
+        word_count = len(tweet_text.split(" "))
+        if word_count <= 2:
+            message += "Looks like this tweet is is only a few words..."
+            message += " It's harder for me to infer polarity without more context " + u"\U0001F914"
+            message += " Please try again!"
+        else:
+            result = classify(tweet_text, self.model) # pass in pre-loaded model to prevent re-loading
+            print(result)
+            score = result["pro_brexit"]
+            if score > 0.4 and score < 0.6:
+                message += " I think this tweet is either neutral or I have never seen such language before " + u"\U0001F644"
+            else:
+                message += f" I think this tweet is {str(int(score*100))}% Pro-Brexit"
+                media_filepath = save_brexit_image(score)
+
+        if APP_ENV != "production":
+            message += f" [env:{APP_ENV}]"
+
+        return message, media_filepath
+
+    def on_error(self, status_code):
+        print("ON ERROR:", status_code)
 
     def on_timeout(self):
-        print (sys.stderr + 'Timeout...')
-        return True # Don't kill the stream
+        print("TIMEOUT!")
+        return True # don't kill the stream!
 
 if __name__ == '__main__':
 
+    print("APP ENV", APP_ENV)
+
     listener = StdOutListener()
-    print("LISTENER...", type(listener))
+    print("LISTENER", type(listener))
 
     stream = Stream(listener.auth, listener)
     print("STREAM", type(stream))

@@ -1,16 +1,18 @@
-
+# for neural networks:
 keras
 tensorflow
 
+# for natural language processing:
 gensim
 wordsegment
 nltk
 
-python-dotenv
-tweepy
-google-cloud-storage
+python-dotenv # a.k.a. dotenv, for reading environment vars from the ".env" file
+tweepy # for interfacing with the twitter api
+google-cloud-storage # for reading remotely hosted model files
 
+matplotlib # for image generation
+pillow # a.k.a. PIL, for image generation
 #h5py
 #pandas
-#pillow
 #numpy

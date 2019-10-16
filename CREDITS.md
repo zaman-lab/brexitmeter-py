@@ -14,6 +14,8 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 
 ## Natural Language Processing
 
+  + [Removing whitespace from a string in Python](https://stackoverflow.com/questions/8270092/remove-all-whitespace-in-a-string-in-python)
+
 ### Gensim
 
 "Gensim is a Python library for topic modeling, document indexing and similarity retrieval with large corpora."
@@ -39,8 +41,18 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 
   + [Twitter API](https://developer.twitter.com/en/apps/)
   + [Twitter API Restricted Use Cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases)
+  + [Twitter API Response Codes](https://developer.twitter.com/en/docs/basics/response-codes)
+  + [Twitter API Rate-limiting](https://developer.twitter.com/en/docs/basics/rate-limiting)
+
+### Tweepy
+
   + [Tweepy](http://www.tweepy.org/)
   + [Tweepy Source](https://github.com/tweepy/tweepy)
+  + [Tweepy Streaming Guide](http://docs.tweepy.org/en/v3.8.0/streaming_how_to.html)
+  + [Tweepy `api.update_with_media()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.update_with_media)
+  + [Tweepy `api.update_with_media()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.update_with_media) ... deprecated in favor of ...
+  + [Tweepy `api.media_upload()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.media_upload)
+  + [Tweepy `api.media_upload()` Example](https://stackoverflow.com/questions/51106363/tweet-mp4-files-with-tweepy)
 
 ## Heroku
 
