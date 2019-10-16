@@ -14,6 +14,8 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
 
 ## Natural Language Processing
 
+  + [Removing whitespace from a string in Python](https://stackoverflow.com/questions/8270092/remove-all-whitespace-in-a-string-in-python)
+
 ### Gensim
 
 "Gensim is a Python library for topic modeling, document indexing and similarity retrieval with large corpora."

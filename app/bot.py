@@ -41,20 +41,6 @@ class StdOutListener(StreamListener):
         print(status.user.screen_name, "says:", status.text)
 
         if(BOT_HANDLE in status.text):
-
-            tweetText_ = status.text.split(BOT_HANDLE)
-            tweetText = ''.join([i for i in tweetText_ if BOT_HANDLE not in i])
-            temp = tweetText.split(' ')[1:]
-            #sort out any white spaces left over from splitting
-            #account for if username is at the start of a tweet/in the middle/at the end
-            tweetText = ''.join(tweetText)
-            #print("temp", temp) #> ['', 'in', 'development,', 'this', 'might', 'not', 'work', '2']
-            #print("tweetText", tweetText) #> testing  in development, this might not work 2
-            print(tweetText.split(' '))
-
-            message, media_filepath = self.compile_reply(status, temp, tweetText)
-            print("MESSAGE:", message)
-
             # prevent bot loops - if we tweet the same person more than 10 times then start ignoring
             if(status.author.screen_name == self.lastTweeted):
                 self.lastTweetedCount += 1
@@ -65,10 +51,6 @@ class StdOutListener(StreamListener):
             if(status.in_reply_to_status_id is not None):
                 return
 
-            #
-            # SEND THE TWEET!
-            #
-
             try:
                 #rate limiting - if attempts is greater than 10, give up
                 if(self.wait > 10):
@@ -77,6 +59,9 @@ class StdOutListener(StreamListener):
                 elif(self.wait > 0):
                     print("SLEEPING FOR...", self.wait)
                     time.sleep(self.wait)
+
+                message, media_filepath = self.compile_reply(status)
+                print("MESSAGE:", message)
 
                 request_params = {"status": message, "in_reply_to_status_id": status.id}
                 if media_filepath and os.path.isfile(media_filepath):
@@ -93,11 +78,19 @@ class StdOutListener(StreamListener):
                 self.wait += 1
                 return
 
-    def compile_reply(self, status, temp, tweet_text):
+    def compile_reply(self, status):
         message = f"@{status.author.screen_name} "
         media_filepath = None
 
-        if (len(temp) <= 2):
+        # remove the bot's handle... consider moving this logic into the classifier itself?
+        print(status.text)
+        tweet_text = status.text #> 'Testing the @brexitmeter_bot Oh yeah!'
+        tweet_text = "".join(tweet_text.split(BOT_HANDLE)) #> 'Testing the  Oh yeah!'
+        tweet_text = " ".join(tweet_text.split()) #> 'Testing the Oh yeah!'
+        print(tweet_text)
+
+        word_count = len(tweet_text.split(" "))
+        if word_count <= 2:
             message += "Looks like this tweet is is only a few words..."
             message += " It's harder for me to infer polarity without more context " + u"\U0001F914"
             message += " Please try again!"
