@@ -52,7 +52,7 @@ class StdOutListener(StreamListener):
                 return
 
             try:
-                #rate limiting - if attempts is greater than 10, give up
+                # rate limiting - if attempts is greater than 10, give up
                 if(self.wait > 10):
                     print("TOO MUCH WAITING AROUND...", self.wait)
                     return
@@ -104,7 +104,7 @@ class StdOutListener(StreamListener):
                 message += f" I think this tweet is {str(int(score*100))}% Pro-Brexit"
                 media_filepath = save_brexit_image(score)
 
-        if APP_ENV is not "production":
+        if APP_ENV != "production":
             message += f" [env:{APP_ENV}]"
 
         return message, media_filepath
@@ -117,6 +117,8 @@ class StdOutListener(StreamListener):
         return True # don't kill the stream!
 
 if __name__ == '__main__':
+
+    print("APP ENV", APP_ENV)
 
     listener = StdOutListener()
     print("LISTENER", type(listener))

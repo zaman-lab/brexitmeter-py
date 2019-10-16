@@ -67,7 +67,7 @@ def save_brexit_image(score, img_filepath=None):
 
 if __name__ == "__main__":
 
-    if APP_ENV is not "production":
+    if APP_ENV != "production":
 
         polarity = 0.44
         polarity_input = input("Please choose a polarity score between 0 and 1 (e.g. 0.44): ")
