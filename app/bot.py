@@ -125,10 +125,6 @@ class StdOutListener(StreamListener):
 
 if __name__ == '__main__':
 
-    #auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    #auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
-    #api = tweepy.API(auth)
-
     listener = StdOutListener()
     print("LISTENER", type(listener))
 

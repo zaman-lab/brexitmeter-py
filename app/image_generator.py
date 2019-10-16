@@ -8,7 +8,7 @@ from PIL import Image
 from app import APP_ENV
 
 IMG_DIRPATH = os.path.join(os.path.dirname(__file__), "..", "img")
-BASE_IMG_FILEPATH = os.path.abspath(os.path.join(IMG_DIRPATH, "up_gauge.png"))
+TEMPLATE_IMG_FILEPATH = os.path.abspath(os.path.join(IMG_DIRPATH, "up_gauge.png"))
 
 def save_brexit_image(score, img_filepath=None):
     """
@@ -29,9 +29,9 @@ def save_brexit_image(score, img_filepath=None):
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
 
-    base_img = Image.open(BASE_IMG_FILEPATH)
-    width, height = base_img.size #> 1976, 706
-    ax.imshow(base_img)
+    template_img = Image.open(TEMPLATE_IMG_FILEPATH)
+    width, height = template_img.size #> 1976, 706
+    ax.imshow(template_img)
 
     arrow_angle = (score*1000/float(1000)) * 3.14159
     arrow_x = - height / 2 * math.cos(arrow_angle)
