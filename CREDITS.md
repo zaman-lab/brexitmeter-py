@@ -1,6 +1,6 @@
 # Credits, Notes, and Reference
 
-This is a (re)production of the [original @brexitmeter](https://twitter.com/brexitmeter).
+This is a (re)production of the [original @brexitmeter](https://twitter.com/brexitmeter), by Nicolas Guenon des Mesnards.
 
 ## Neural Networks
 
