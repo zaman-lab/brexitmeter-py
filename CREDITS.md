@@ -41,6 +41,11 @@ The polarity classifier is a Keras model which uses a Tensorflow backend (CPU ve
   + [Twitter API Restricted Use Cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases)
   + [Tweepy](http://www.tweepy.org/)
   + [Tweepy Source](https://github.com/tweepy/tweepy)
+  + [Tweepy Streaming Guide](http://docs.tweepy.org/en/v3.8.0/streaming_how_to.html)
+  + [Tweepy `api.update_with_media()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.update_with_media)
+  + [Tweepy `api.update_with_media()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.update_with_media) ... deprecated in favor of ...
+  + [Tweepy `api.media_upload()` Docs](http://docs.tweepy.org/en/v3.8.0/api.html?highlight=update_with_media#API.media_upload)
+  + [Tweepy `api.media_upload()` Example](https://stackoverflow.com/questions/51106363/tweet-mp4-files-with-tweepy)
 
 ## Heroku
 
