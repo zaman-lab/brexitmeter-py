@@ -53,7 +53,7 @@ class StdOutListener(StreamListener):
             print(tweetText.split(' '))
 
             message, media_filepath = self.compile_reply(status, temp, tweetText)
-            print("MESSAGE:" message)
+            print("MESSAGE:", message)
 
             # prevent bot loops - if we tweet the same person more than 10 times then start ignoring
             if(status.author.screen_name == self.lastTweeted):
@@ -72,40 +72,26 @@ class StdOutListener(StreamListener):
             try:
                 #rate limiting - if attempts is greater than 10, give up
                 if(self.wait > 10):
+                    print("TOO MUCH WAITING AROUND...", self.wait)
                     return
                 elif(self.wait > 0):
+                    print("SLEEPING FOR...", self.wait)
                     time.sleep(self.wait)
 
-                #self.api.update_with_media(
-                #    filename=media_filepath,
-                #    status=message,
-                #    in_reply_to_status_id=status.id
-                #)
-                # FYI: update_with_media is deprecated, use media_upload() instead
-
                 request_params = {"status": message, "in_reply_to_status_id": status.id}
-                if media_filepath:
+                if media_filepath and os.path.isfile(media_filepath):
                     upload_result = self.api.media_upload(media_filepath)
                     request_params["media_ids"] = [upload_result.media_id_string]
+                    os.remove(media_filepath)
 
                 response = self.api.update_status(**request_params) # ** converts a:b dict to a=b formatted params
                 print("RESPONSE", type(response)) #> <class 'tweepy.models.Status'
 
                 self.wait = 0
-            except Exception as a:
-                print(a)
+            except Exception as err:
+                print("EXCEPTION", err)
                 self.wait += 1
                 return
-            except Exception as e:
-                print(e)
-                return
-
-            #
-            # CLEAN UP
-            #
-
-            if media_filepath and os.path.exists(media_filepath):
-                os.remove(media_filepath)
 
     def compile_reply(self, status, temp, tweet_text):
         message = f"@{status.author.screen_name} "
@@ -131,12 +117,10 @@ class StdOutListener(StreamListener):
         return message, media_filepath
 
     def on_error(self, status_code):
-        print("ERROR! ...", status_code)
-        print(sys.stderr)
+        print("ON ERROR:", status_code)
 
     def on_timeout(self):
         print("TIMEOUT!")
-        print(sys.stderr)
         return True # don't kill the stream!
 
 if __name__ == '__main__':
@@ -146,7 +130,7 @@ if __name__ == '__main__':
     #api = tweepy.API(auth)
 
     listener = StdOutListener()
-    print("LISTENER...", type(listener))
+    print("LISTENER", type(listener))
 
     stream = Stream(listener.auth, listener)
     print("STREAM", type(stream))
