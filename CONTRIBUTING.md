@@ -59,7 +59,7 @@ python -m app.client
 
 ### Twitter Bot
 
-Run the classifier via a Twitter Bot, which will reply to at-mentions with the predicted pro-Brexit score polarity score:
+Run the classifier via a Twitter Bot, which will reply to at-mentions with the predicted pro-Brexit polarity score:
 
 ```sh
 python -m app.bot
