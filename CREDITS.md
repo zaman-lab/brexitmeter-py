@@ -63,7 +63,7 @@ We're hosting the production bot on a Heroku server.
 
 ## Google Cloud Storage
 
-The model weights file is [too big](https://stackoverflow.com/questions/44822146/githeroku-repository-or-object-not-found) to be pushed to Heroku, so on production we're going to be loading it from remote storage instead. We researched S3, and were close to getting it to work, but then found an existing [Google Cloud Storage integration with Keras](https://github.com/keras-team/keras/pull/11636/files), which made it really easy to load remote model files. :pray: tada:
+The model weights file is [too big](https://stackoverflow.com/questions/44822146/githeroku-repository-or-object-not-found) to be pushed to Heroku, so on production we're going to be loading it from remote storage instead. We researched S3, and were close to getting it to work, but then found an existing [Google Cloud Storage integration with Keras](https://github.com/keras-team/keras/pull/11636/files), which made it really easy to load remote model files. :pray: :tada:
 
   + [Making buckets public](https://cloud.google.com/storage/docs/access-control/making-data-public)
   + [Google Cloud Reference](https://cloud.google.com/python/docs/reference/)
